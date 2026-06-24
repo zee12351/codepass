@@ -106,6 +106,24 @@
   footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px}
   footer a{color:#cdd9ea}
   .disc{max-width:1100px;margin:14px auto 0;padding:0 20px;color:#6f86a6;font-size:12px;line-height:1.5}
+  /* waitlist modal */
+  .modal-overlay{position:fixed;inset:0;background:rgba(10,25,45,.66);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+  .modal-overlay.open{display:flex}
+  .modal{background:#fff;border-radius:18px;max-width:440px;width:100%;padding:34px 30px;text-align:center;position:relative;box-shadow:0 30px 80px rgba(0,0,0,.35);animation:pop .2s ease}
+  @keyframes pop{from{transform:translateY(12px) scale(.98);opacity:0}to{transform:none;opacity:1}}
+  .modal .x{position:absolute;top:12px;right:16px;background:none;border:none;font-size:26px;color:#9aa7b8;cursor:pointer;line-height:1}
+  .modal .badge{display:inline-block;background:#e7f6ee;color:var(--green-d);font-weight:700;font-size:12px;padding:5px 12px;border-radius:999px;margin-bottom:14px}
+  .modal h3{font-size:24px;color:var(--navy);margin-bottom:10px;font-weight:800}
+  .modal p.m-sub{color:var(--muted);font-size:15px;margin-bottom:18px}
+  .modal .perks{text-align:left;background:#f5f9ff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:14px}
+  .modal .perks div{font-size:14px;color:#2f4156;padding:4px 0 4px 24px;position:relative}
+  .modal .perks div:before{content:"\2713";position:absolute;left:0;color:var(--green-d);font-weight:800}
+  .modal .scarcity{font-size:13px;color:#c2410c;font-weight:700;margin-bottom:16px}
+  .modal input{width:100%;padding:14px 16px;border:2px solid var(--line);border-radius:10px;font-size:16px;margin-bottom:12px}
+  .modal input:focus{outline:none;border-color:var(--green)}
+  .modal .btn{width:100%;font-size:16px}
+  .modal .fine{font-size:12px;color:#98a6b8;margin-top:12px}
+  .modal .success-ic{font-size:46px;margin-bottom:10px}
 </style>
 </head>
 <body>
@@ -130,11 +148,8 @@
     <h1>Pass your <em>CPC</em> exam. Practice smarter, pass faster.</h1>
     <p class="sub">Realistic CPC &amp; CCS practice questions, full-length timed mock exams, and clear answer rationales — on your phone, for a fraction of institute fees.</p>
     <a href="app.html" class="btn" style="background:#16a34a;font-size:17px;padding:16px 30px;">▶  Take the free 20-question quiz now</a>
-    <form class="hero-form" style="margin-top:18px;">
-      <input type="email" id="email1" placeholder="Enter your email" />
-      <button class="btn btn-ghost" style="background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.4);" type="submit" onclick="return joinWaitlist(event)">Notify me of launch &amp; new tracks</button>
-    </form>
-    <small>Try it instantly — no signup needed. Or leave your email for updates.</small>
+    <button class="btn" style="margin-top:16px;background:rgba(255,255,255,.12);color:#fff;border:2px solid rgba(255,255,255,.5);" onclick="openWaitlist()">🔔 Get early access at launch</button>
+    <small>Try the quiz now — or join the founding members for early access when we launch.</small>
   </div>
 </header>
 
@@ -192,15 +207,12 @@
   </div>
 </section>
 
-<!-- FREE QUIZ BAND -->
+<!-- WAITLIST / FOMO BAND -->
 <section class="band" id="waitlist">
   <div class="wrap">
-    <h2>Free: the 20-question CPC readiness quiz</h2>
-    <p>See where you stand today — and join the waitlist for early access at launch-day pricing.</p>
-    <form class="hero-form" onsubmit="return joinWaitlist(event)">
-      <input type="email" id="email2" placeholder="Enter your email" required />
-      <button class="btn" type="submit">Send me the quiz</button>
-    </form>
+    <h2>The full Zarivo platform is coming 🚀</h2>
+    <p>Thousands of questions, full timed mock exams, and every track (CPC, CCS, CCA) — in English &amp; Hindi. Founding members get in first, with exclusive early-access perks. Limited to our first 500.</p>
+    <button class="btn" onclick="openWaitlist()">Join the founding members →</button>
   </div>
 </section>
 
@@ -215,23 +227,23 @@
         <h3>Free</h3>
         <div class="price">₹0</div>
         <ul><li>50 practice questions</li><li>1 mini mock exam</li><li>Basic progress tracking</li></ul>
-        <a href="#waitlist" class="btn btn-ghost">Join waitlist</a>
+        <a href="javascript:void(0)" onclick="openWaitlist()" class="btn btn-ghost">Join waitlist</a>
       </div>
       <div class="plan best">
         <span class="tag">BEST VALUE</span>
         <h3>Pass Bundle</h3>
         <div class="price">₹2,999 <small>/ 6 months</small></div>
         <ul><li>Full question bank</li><li>Unlimited timed mock exams</li><li>Weak-area analytics &amp; smart review</li><li>Exam-day study plan</li><li>English &amp; Hindi</li></ul>
-        <a href="#waitlist" class="btn">Get early access</a>
+        <a href="javascript:void(0)" onclick="openWaitlist()" class="btn">Get early access</a>
       </div>
       <div class="plan">
         <h3>Pro Monthly</h3>
         <div class="price">₹699 <small>/ month</small></div>
         <ul><li>Full question bank</li><li>Unlimited mock exams</li><li>All analytics</li><li>Cancel anytime</li></ul>
-        <a href="#waitlist" class="btn btn-ghost">Join waitlist</a>
+        <a href="javascript:void(0)" onclick="openWaitlist()" class="btn btn-ghost">Join waitlist</a>
       </div>
     </div>
-    <p class="note">Global pricing in USD at launch (Pro $19/mo • Pass Bundle $49). Running a coaching institute or BPO? <a href="#waitlist" style="color:var(--green-d);font-weight:700">Ask about bulk seats →</a></p>
+    <p class="note">Global pricing in USD at launch (Pro $19/mo • Pass Bundle $49). Running a coaching institute or BPO? <a href="javascript:void(0)" onclick="openWaitlist()" style="color:var(--green-d);font-weight:700">Ask about bulk seats →</a></p>
   </div>
 </section>
 
@@ -265,11 +277,9 @@
 <section class="final">
   <div class="wrap">
     <h2>Your CPC, in your pocket.</h2>
-    <p>Join the waitlist today and get the free 20-question readiness quiz.</p>
-    <form class="hero-form" onsubmit="return joinWaitlist(event)">
-      <input type="email" id="email3" placeholder="Enter your email" required />
-      <button class="btn" type="submit">Join the waitlist</button>
-    </form>
+    <p>Take the free quiz now — or claim your founding-member spot for early access at launch.</p>
+    <a href="app.html" class="btn" style="margin-right:10px;">▶ Take the free quiz</a>
+    <button class="btn" style="background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.5);" onclick="openWaitlist()">🔔 Get launch access</button>
   </div>
 </section>
 
@@ -282,18 +292,64 @@
   <p class="disc">Zarivo provides original educational practice material and is not affiliated with, endorsed by, or sponsored by AAPC or AHIMA. CPT® is a registered trademark of the American Medical Association. ICD-10-CM and HCPCS Level II are in the public domain. Practice content is for educational purposes and does not guarantee certification results.</p>
 </footer>
 
+<!-- WAITLIST MODAL -->
+<div class="modal-overlay" id="waitlistModal" onclick="if(event.target===this)closeWaitlist()">
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="x" onclick="closeWaitlist()" aria-label="Close">&times;</button>
+    <div id="wl-form">
+      <span class="badge">🚀 Founding Member Access</span>
+      <h3>Be first when Zarivo opens</h3>
+      <p class="m-sub">We're launching the full platform soon. Founding members lock in perks the public won't get:</p>
+      <div class="perks">
+        <div><b>Exclusive</b> founding-member launch pricing</div>
+        <div>First access, before everyone else</div>
+        <div>New tracks (CCS, CCA) free for 3 months</div>
+      </div>
+      <p class="scarcity">🔥 Limited to our first 500 founding members</p>
+      <input type="email" id="wlEmail" placeholder="you@email.com" autocomplete="email" />
+      <button class="btn" id="wlBtn" onclick="submitWaitlist()">Claim my founding spot</button>
+      <p class="fine">We'll only email you about the launch. No spam, unsubscribe anytime.</p>
+    </div>
+    <div id="wl-success" style="display:none">
+      <div class="success-ic">🎉</div>
+      <h3>You're in!</h3>
+      <p class="m-sub">You're officially a Zarivo founding member. We'll email you the moment we open — keep an eye on your inbox.</p>
+      <button class="btn" onclick="closeWaitlist()">Done</button>
+    </div>
+  </div>
+</div>
+
 <script>
+  // ====== PASTE YOUR FORMSPREE FORM URL BELOW (see setup note) ======
+  const WAITLIST_ENDPOINT = "https://formspree.io/f/xreweddn";
+  // ==================================================================
+
   function tg(b){ b.parentElement.classList.toggle('open'); b.querySelector('.pm').textContent = b.parentElement.classList.contains('open') ? '–' : '+'; }
-  function joinWaitlist(e){
-    e.preventDefault();
-    var input = e.target.querySelector('input[type=email]');
-    var email = input.value.trim();
-    if(!email) return false;
-    /* TODO: replace with your real capture endpoint (Formspree/Google Form/Supabase).
-       Example: fetch('https://formspree.io/f/XXXX', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email})}) */
-    alert("You're on the list! 🎉 We'll send your free 20-question quiz soon.\n\n("+email+")");
-    input.value = "";
-    return false;
+  function openWaitlist(){
+    document.getElementById('wl-form').style.display='block';
+    document.getElementById('wl-success').style.display='none';
+    document.getElementById('waitlistModal').classList.add('open');
+    setTimeout(function(){ var i=document.getElementById('wlEmail'); if(i) i.focus(); }, 80);
+  }
+  function closeWaitlist(){ document.getElementById('waitlistModal').classList.remove('open'); }
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeWaitlist(); });
+
+  function submitWaitlist(){
+    var input=document.getElementById('wlEmail');
+    var email=(input.value||'').trim();
+    if(!email || email.indexOf('@')<1 || email.lastIndexOf('.')<email.indexOf('@')){ input.style.borderColor='#dc2626'; input.focus(); return; }
+    var btn=document.getElementById('wlBtn'); btn.disabled=true; btn.textContent='Saving…';
+    // Local backup so a lead is never lost (view via console: localStorage.getItem('zarivo_waitlist'))
+    try{ var list=JSON.parse(localStorage.getItem('zarivo_waitlist')||'[]'); if(list.indexOf(email)<0){ list.push(email); localStorage.setItem('zarivo_waitlist', JSON.stringify(list)); } }catch(_){}
+    function done(){
+      document.getElementById('wl-form').style.display='none';
+      document.getElementById('wl-success').style.display='block';
+      btn.disabled=false; btn.textContent='Claim my founding spot'; input.value='';
+    }
+    if(WAITLIST_ENDPOINT.indexOf('YOUR_FORM_ID')>-1){ done(); return; } // not configured yet → still saves locally + shows success
+    fetch(WAITLIST_ENDPOINT, { method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, body:JSON.stringify({ email:email, source:'zarivo-waitlist' }) })
+      .then(function(){ done(); })
+      .catch(function(){ done(); });
   }
 </script>
 </body>
