@@ -1,0 +1,5 @@
+# Keep private/non-web files out of the public deployment
+CodePass_Business_Plan.docx
+codepass_landing.html
+*.docx
+node_modules

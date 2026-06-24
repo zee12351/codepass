@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zarivo Student Portal — Diagnostic Exam Prep</title>
+  <meta name="description" content="Interactive CPC medical coding diagnostic practice exam with real-time analytics and rationales." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <div class="wrap">
+    <div class="logo" style="cursor:pointer;" onclick="location.href='index.html'">Zar<span>ivo</span> <small style="font-size:12px; font-weight:600; color:var(--muted); margin-left:8px;">Portal</small></div>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="index.html#features">Features</a>
+        <a href="javascript:void(0)" onclick="confirmExit()">Exit Exam</a>
+      </div>
+      
+      <!-- Theme Switcher Widget -->
+      <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle Theme">
+        <svg class="moon" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+        </svg>
+        <svg class="sun" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.46 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <!-- QUIZ INTERFACE PANEL -->
+  <main class="app-container" id="quiz-panel">
+    <!-- Left Column: Active Question -->
+    <section class="question-card">
+      <div class="question-header">
+        <div class="question-meta">
+          <span class="q-category-badge" id="question-category">Category</span>
+          <span class="q-number" id="question-number">Question 1 of 20</span>
+        </div>
+        <button class="lang-toggle-btn" onclick="toggleLanguage()">
+          🌐 <span id="lang-btn-text">Switch to Hindi</span>
+        </button>
+      </div>
+
+      <div class="question-text" id="question-text">
+        Loading question text...
+      </div>
+
+      <div class="options-container" id="options-container">
+        <!-- Dynamically Generated Option Labels -->
+      </div>
+
+      <div class="card-actions">
+        <button class="flag-btn" id="flag-btn" onclick="toggleFlag()">
+          <svg style="width:16px; height:16px;" viewBox="0 0 20 20" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 3V17M3 5C5 5 6.5 4 8.5 4C10.5 4 11.5 5 13.5 5C15.5 5 17 4 17 4V12C17 12 15.5 13 13.5 13C11.5 13 10.5 12 8.5 12C6.5 12 5 13 3 13" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span id="flag-text">Mark for Review</span>
+        </button>
+        <div class="nav-buttons">
+          <button class="btn btn-ghost" id="prev-btn" onclick="prevQuestion()">Previous</button>
+          <button class="btn" id="next-btn" onclick="nextQuestion()">Next</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right Column: Status Grid & Pacing Tracker -->
+    <aside class="tracker-card">
+      <div class="timer-box">
+        <div class="timer-header">
+          <span>Time Remaining</span>
+          <span class="time-left" id="time-left">40:00</span>
+        </div>
+        <div class="timer-bar-bg">
+          <div class="timer-bar-fill" id="timer-bar-fill"></div>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="grid-title">Question Navigator</h4>
+        <div class="question-grid" id="question-grid">
+          <!-- Dynamically Generated Grid nodes -->
+        </div>
+      </div>
+
+      <div class="grid-legend">
+        <div class="legend-item"><span class="legend-dot answered"></span>Answered</div>
+        <div class="legend-item"><span class="legend-dot marked"></span>Flagged</div>
+        <div class="legend-item"><span class="legend-dot unanswered"></span>Unanswered</div>
+      </div>
+
+      <button class="btn" style="width:100%; margin-top:12px; background:var(--navy2);" onclick="confirmSubmit()">
+        Submit Exam
+      </button>
+    </aside>
+  </main>
+
+  <!-- ANALYTICS DASHBOARD PANEL (Hidden initially) -->
+  <main class="analytics-container" id="analytics-panel" style="display:none;">
+    <section class="score-summary-card">
+      <div class="svg-ring-container">
+        <svg class="svg-ring" width="160" height="160">
+          <circle class="svg-ring-circle-bg" cx="80" cy="80" r="70"></circle>
+          <circle class="svg-ring-circle-fill" id="ring-fill" cx="80" cy="80" r="70" stroke-dasharray="439.8" stroke-dashoffset="439.8"></circle>
+        </svg>
+        <div class="score-text" id="score-text">0<small>/20</small></div>
+      </div>
+      
+      <span class="result-badge" id="result-badge">Needs Review</span>
+      <h2 class="score-summary-title" id="score-summary-title">You got a 0% Score</h2>
+      <p class="score-summary-desc" id="score-summary-desc">
+        A passing grade on the official AAPC CPC exam is 70%. Let's review your details below to see which chapters need more practice.
+      </p>
+    </section>
+
+    <!-- Category Breakdown Chart -->
+    <section class="category-breakdown-card">
+      <h3 class="grid-title" style="font-size:20px; margin-bottom:24px; border-bottom:1px solid var(--line); padding-bottom:12px;">Category Performance</h3>
+      <div id="category-bars-container">
+        <!-- Dynamically Generated Category Progress bars -->
+      </div>
+    </section>
+
+    <!-- Personalized Study Advice -->
+    <section class="advice-card">
+      <h3 id="advice-header">💡 Personalized Study Plan</h3>
+      <ul class="advice-list" id="advice-list">
+        <!-- Dynamically Generated Advice items -->
+      </ul>
+    </section>
+
+    <!-- Navigation Actions -->
+    <div class="dashboard-actions">
+      <button class="btn" onclick="retakeQuiz()">Retake Diagnostic Test</button>
+      <button class="btn btn-ghost" onclick="location.href='index.html'">Back to Landing Page</button>
+    </div>
+
+    <!-- Detailed Question-by-Question Review -->
+    <section>
+      <h2 class="review-mode-title">Answer Key &amp; Rationales</h2>
+      <div id="review-items-container">
+        <!-- Dynamically Generated Review cards -->
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- Footer disclaimer -->
+<footer style="margin-top:80px;">
+  <div class="wrap">
+    <div class="logo" style="color:#fff">Zar<span>ivo</span></div>
+    <div style="font-size:12px; color:#475569;">Bilingual CPC Preparation Sandbox</div>
+  </div>
+  <p class="disc">Zarivo provides original educational practice material and is not affiliated with, endorsed by, or sponsored by AAPC or AHIMA. Practice content is for educational purposes and does not guarantee certification results.</p>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="questions.js"></script>
+<script src="app.js"></script>
+<script>
+  // 1. Quiz State Management
+  let questions = [];
+  let currentIdx = 0;
+  let lang = 'english'; // 'english' or 'hindi'
+  let answers = Array(20).fill(null); // stores selected option indices (0-3)
+  let flags = Array(20).fill(false); // marks flagged questions
+  let timer = null;
+  const totalDuration = 2400; // 40 minutes in seconds
+  let timeLeft = totalDuration;
+
+  // Verify that questions database exists and is loaded
+  if (typeof codingQuestions !== 'undefined') {
+    questions = codingQuestions;
+  } else {
+    alert("Error: Questions database failed to load. Please verify questions.js exists.");
+  }
+
+  // Initialize Page Setup
+  document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
+    if (questions.length > 0) {
+      buildGrid();
+      loadQuestion(0);
+      startTimer();
+    }
+  });
+
+  // Exit Quiz Confirmation
+  function confirmExit() {
+    if (confirm("Are you sure you want to exit the exam? Your progress will be lost.")) {
+      location.href = 'index.html';
+    }
+  }
+
+  // 2. Build Navigator Grid Nodes
+  function buildGrid() {
+    const grid = document.getElementById('question-grid');
+    grid.innerHTML = '';
+    
+    questions.forEach((q, idx) => {
+      const node = document.createElement('div');
+      node.className = 'grid-node';
+      node.id = `grid-node-${idx}`;
+      node.textContent = idx + 1;
+      node.onclick = () => jumpToQuestion(idx);
+      grid.appendChild(node);
+    });
+  }
+
+  // 3. Render Question at Index
+  function loadQuestion(idx) {
+    currentIdx = idx;
+    const q = questions[idx];
+    
+    // Update active navigator node styling
+    document.querySelectorAll('.grid-node').forEach(node => {
+      node.classList.remove('current');
+    });
+    
+    const activeNode = document.getElementById(`grid-node-${idx}`);
+    if (activeNode) {
+      activeNode.classList.add('current');
+    }
+
+    // Load Metas
+    document.getElementById('question-category').textContent = q.category;
+    document.getElementById('question-number').textContent = `Question ${idx + 1} of ${questions.length}`;
+    
+    // Update Language Button Text
+    const langBtnText = document.getElementById('lang-btn-text');
+    langBtnText.textContent = lang === 'english' ? 'Switch to Hindi (हिंदी)' : 'Switch to English';
+
+    // Set Text Content by Language
+    const qData = q[lang];
+    document.getElementById('question-text').textContent = qData.question;
+    
+    // Load Option Cards
+    const container = document.getElementById('options-container');
+    container.innerHTML = '';
+    
+    qData.options.forEach((optText, optIdx) => {
+      const isSelected = answers[idx] === optIdx;
+      
+      const label = document.createElement('label');
+      label.className = `option-label ${isSelected ? 'selected-border' : ''}`;
+      label.onclick = () => selectOption(optIdx);
+      
+      const letterCode = String.fromCharCode(65 + optIdx); // A, B, C, D
+      
+      label.innerHTML = `
+        <input type="radio" class="option-radio" name="options" ${isSelected ? 'checked' : ''} />
+        <span class="option-letter">${letterCode}</span>
+        <span>${optText}</span>
+      `;
+      container.appendChild(label);
+    });
+
+    // Update Flag (Review) button state
+    const flagBtn = document.getElementById('flag-btn');
+    const flagText = document.getElementById('flag-text');
+    if (flags[idx]) {
+      flagBtn.classList.add('flagged');
+      flagText.textContent = 'Flagged for Review';
+    } else {
+      flagBtn.classList.remove('flagged');
+      flagText.textContent = 'Mark for Review';
+    }
+
+    // Toggle nav button states
+    document.getElementById('prev-btn').disabled = idx === 0;
+    document.getElementById('next-btn').textContent = idx === questions.length - 1 ? 'Finish' : 'Next';
+  }
+
+  // Action: Select Option
+  function selectOption(optIdx) {
+    answers[currentIdx] = optIdx;
+    
+    // Highlight UI card immediately
+    const labels = document.querySelectorAll('.option-label');
+    labels.forEach((lbl, i) => {
+      if (i === optIdx) {
+        lbl.classList.add('selected-border');
+        lbl.querySelector('input').checked = true;
+      } else {
+        lbl.classList.remove('selected-border');
+      }
+    });
+
+    // Update grid node status classes
+    const node = document.getElementById(`grid-node-${currentIdx}`);
+    if (node) {
+      node.classList.add('answered');
+    }
+  }
+
+  // Action: Switch English/Hindi
+  function toggleLanguage() {
+    lang = lang === 'english' ? 'hindi' : 'english';
+    loadQuestion(currentIdx);
+  }
+
+  // Action: Flag question
+  function toggleFlag() {
+    flags[currentIdx] = !flags[currentIdx];
+    
+    const node = document.getElementById(`grid-node-${currentIdx}`);
+    const flagBtn = document.getElementById('flag-btn');
+    const flagText = document.getElementById('flag-text');
+    
+    if (flags[currentIdx]) {
+      node.classList.add('marked');
+      flagBtn.classList.add('flagged');
+      flagText.textContent = 'Flagged for Review';
+    } else {
+      node.classList.remove('marked');
+      flagBtn.classList.remove('flagged');
+      flagText.textContent = 'Mark for Review';
+    }
+  }
+
+  // Action: Navigate Questions
+  function nextQuestion() {
+    if (currentIdx < questions.length - 1) {
+      loadQuestion(currentIdx + 1);
+    } else {
+      confirmSubmit();
+    }
+  }
+
+  function prevQuestion() {
+    if (currentIdx > 0) {
+      loadQuestion(currentIdx - 1);
+    }
+  }
+
+  function jumpToQuestion(idx) {
+    loadQuestion(idx);
+  }
+
+  // 4. Timer Pacing Implementation
+  function startTimer() {
+    timeLeft = totalDuration;
+    timer = setInterval(updateTimer, 1000);
+  }
+
+  function updateTimer() {
+    timeLeft--;
+    
+    const min = Math.floor(timeLeft / 60);
+    const sec = timeLeft % 60;
+    const timeString = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+    
+    document.getElementById('time-left').textContent = timeString;
+
+    // Update pacing bar
+    const bar = document.getElementById('timer-bar-fill');
+    const percentage = (timeLeft / totalDuration) * 100;
+    bar.style.width = `${percentage}%`;
+
+    // Handle warning color transitions
+    if (timeLeft <= 300) { // 5 minutes remaining
+      bar.className = 'timer-bar-fill danger';
+    } else if (timeLeft <= 900) { // 15 minutes remaining
+      bar.className = 'timer-bar-fill warning';
+    } else {
+      bar.className = 'timer-bar-fill';
+    }
+
+    // Time out trigger
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      alert("Time is up! Your diagnostic test is being submitted automatically.");
+      submitExam(true);
+    }
+  }
+
+  // 5. Submit Exam & Grade Processing
+  function confirmSubmit() {
+    const unansweredCount = answers.filter(a => a === null).length;
+    let confirmMsg = "Are you sure you want to submit your exam for grading?";
+    if (unansweredCount > 0) {
+      confirmMsg = `You have ${unansweredCount} unanswered question(s). Are you sure you want to submit for grading?`;
+    }
+    
+    if (confirm(confirmMsg)) {
+      submitExam(false);
+    }
+  }
+
+  function submitExam(isAutoSubmit) {
+    clearInterval(timer);
+    
+    // Hide test view and show report dashboard
+    document.getElementById('quiz-panel').style.display = 'none';
+    const reportPanel = document.getElementById('analytics-panel');
+    reportPanel.style.display = 'block';
+    window.scrollTo(0, 0);
+
+    // Calculate score grades
+    let score = 0;
+    const categoryTotals = {};
+    const categoryCorrects = {};
+
+    questions.forEach((q, idx) => {
+      const userAns = answers[idx];
+      const isCorrect = userAns === q.answer;
+      
+      if (isCorrect) score++;
+
+      // Organize category analytics data
+      if (!categoryTotals[q.category]) {
+        categoryTotals[q.category] = 0;
+        categoryCorrects[q.category] = 0;
+      }
+      categoryTotals[q.category]++;
+      if (isCorrect) categoryCorrects[q.category]++;
+    });
+
+    const scorePercentage = Math.round((score / questions.length) * 100);
+    const passThreshold = 70; // AAPC standard
+    const didPass = scorePercentage >= passThreshold;
+
+    // Draw circular SVG ring
+    const ring = document.getElementById('ring-fill');
+    const radius = 70;
+    const circumference = 2 * Math.PI * radius; // 439.8
+    const offset = circumference - (scorePercentage / 100) * circumference;
+    
+    ring.style.strokeDashoffset = offset;
+    if (didPass) {
+      ring.classList.remove('fail');
+    } else {
+      ring.classList.add('fail');
+    }
+
+    // Display basic scores
+    document.getElementById('score-text').innerHTML = `${score}<small>/${questions.length}</small>`;
+    
+    const badge = document.getElementById('result-badge');
+    badge.className = `result-badge ${didPass ? 'pass' : 'fail'}`;
+    badge.textContent = didPass ? 'PASS PREDICTED' : 'NEEDS PRACTICE';
+
+    const scoreTitle = document.getElementById('score-summary-title');
+    scoreTitle.textContent = didPass 
+      ? `Congratulations! You scored ${scorePercentage}%` 
+      : `Almost there! You scored ${scorePercentage}%`;
+
+    const scoreDesc = document.getElementById('score-summary-desc');
+    scoreDesc.textContent = didPass
+      ? "Fantastic work! Your score is above the 70% threshold required to pass the official AAPC CPC exam. You have solid foundations to ace the exam!"
+      : "You're getting closer! The passing score on the official CPC exam is 70%. Focus on review rationales for questions you missed and practice your weak chapters.";
+
+    // Render Category Analytics Bars
+    const barsContainer = document.getElementById('category-bars-container');
+    barsContainer.innerHTML = '';
+    
+    const weakCategories = [];
+
+    Object.keys(categoryTotals).forEach(cat => {
+      const correct = categoryCorrects[cat];
+      const total = categoryTotals[cat];
+      const percent = Math.round((correct / total) * 100);
+      
+      let speedClass = 'low';
+      if (percent >= 75) {
+        speedClass = 'high';
+      } else if (percent >= 50) {
+        speedClass = 'mid';
+        weakCategories.push(cat);
+      } else {
+        weakCategories.push(cat);
+      }
+
+      const barGroup = document.createElement('div');
+      barGroup.className = 'category-bar-group';
+      barGroup.innerHTML = `
+        <div class="category-bar-label">
+          <span>${cat}</span>
+          <span>${correct}/${total} (${percent}%)</span>
+        </div>
+        <div class="category-bar-bg">
+          <div class="category-bar-fill ${speedClass}" style="width: ${percent}%;"></div>
+        </div>
+      `;
+      barsContainer.appendChild(barGroup);
+    });
+
+    // Render Personal Advice
+    const adviceList = document.getElementById('advice-list');
+    adviceList.innerHTML = '';
+    
+    if (weakCategories.length === 0) {
+      adviceList.innerHTML = `
+        <li>Excellent performance across all domains. Consider sitting for a full-length, 100-question timed mock exam on the Zarivo platform at launch!</li>
+        <li>Review ICD-10-CM coding guidelines for any rare, specific exceptions before exam day.</li>
+      `;
+    } else {
+      weakCategories.forEach(cat => {
+        let adviceText = '';
+        switch(cat) {
+          case 'Evaluation & Management (E/M)':
+            adviceText = "Practice E/M key criteria calculations: determine established vs new outpatient rules, and master MDM (medical decision making) complexity scoring matrices.";
+            break;
+          case 'ICD-10-CM Diagnosis Coding':
+            adviceText = "Review sequencing rules and conventions: remember to code underlying etiology first, followed by manifestations, and study Hypertension/CKD combination guides.";
+            break;
+          case 'Modifiers & Guidelines':
+            adviceText = "Clarify modifier distinctions: study surgical modifier 59 (distinct procedural site) vs modifier 25 (significant, separate E/M service on the same day).";
+            break;
+          case 'Anesthesia Coding':
+            adviceText = "Revise physical status modifiers (P1 to P6) and study how base units are added to time units to calculate total billing.";
+            break;
+          default:
+            adviceText = `Review CPT Surgery guidelines specifically in the ${cat} section. Focus on understanding surgical bundles and debridement depth layers.`;
+        }
+        
+        const li = document.createElement('li');
+        li.textContent = adviceText;
+        adviceList.appendChild(li);
+      });
+      
+      const generalLi = document.createElement('li');
+      generalLi.textContent = "Maintain a steady pace: official exams limit you to approximately 2 minutes per question. Try to keep an eye on the clock during mock attempts.";
+      adviceList.appendChild(generalLi);
+    }
+
+    // Render Detailed Answer Keys & Review Cards
+    const reviewContainer = document.getElementById('review-items-container');
+    reviewContainer.innerHTML = '';
+
+    questions.forEach((q, idx) => {
+      const userAns = answers[idx];
+      const correctAns = q.answer;
+      const isCorrect = userAns === correctAns;
+
+      const card = document.createElement('div');
+      card.className = `review-item ${isCorrect ? 'correct' : 'incorrect'}`;
+
+      // In review mode, we output the question in the last selected language
+      const qData = q[lang];
+      const userAnsText = userAns !== null ? qData.options[userAns] : 'Not Answered / उत्तर नहीं दिया गया';
+      const correctAnsText = qData.options[correctAns];
+
+      let optionsHTML = '';
+      qData.options.forEach((optText, optIdx) => {
+        let optClass = '';
+        if (optIdx === correctAns) {
+          optClass = 'correct-choice';
+        } else if (optIdx === userAns) {
+          optClass = 'wrong-choice';
+        }
+        
+        const letterCode = String.fromCharCode(65 + optIdx);
+        optionsHTML += `
+          <div class="option-label ${optClass}" style="cursor:default; pointer-events:none; margin-bottom: 8px;">
+            <span class="option-letter">${letterCode}</span>
+            <span>${optText}</span>
+          </div>
+        `;
+      });
+
+      card.innerHTML = `
+        <div class="review-item-header">
+          <span>Question ${idx + 1} — ${q.category}</span>
+          <span class="review-badge ${isCorrect ? 'correct' : 'incorrect'}">${isCorrect ? 'Correct' : 'Incorrect'}</span>
+        </div>
+        <p class="question-text" style="font-size:16px; margin-bottom:18px;">${qData.question}</p>
+        <div style="margin-bottom:20px;">
+          ${optionsHTML}
+        </div>
+        <div class="rationale-box">
+          <h4>Rationale (व्याख्या)</h4>
+          <p style="margin-bottom:8px;"><strong>English:</strong> ${q.rationale.english}</p>
+          <p><strong>हिंदी:</strong> ${q.rationale.hindi}</p>
+        </div>
+      `;
+      reviewContainer.appendChild(card);
+    });
+  }
+
+  // Action: Reset State to Retake Test
+  function retakeQuiz() {
+    answers = Array(20).fill(null);
+    flags = Array(20).fill(false);
+    timeLeft = totalDuration;
+    currentIdx = 0;
+    
+    // Reset Grid styles
+    buildGrid();
+    
+    // Show quiz panel, hide report panel
+    document.getElementById('analytics-panel').style.display = 'none';
+    document.getElementById('quiz-panel').style.display = 'grid';
+    
+    // Load first question & restart timer
+    loadQuestion(0);
+    clearInterval(timer);
+    startTimer();
+  }
+</script>
+</body>
+</html>

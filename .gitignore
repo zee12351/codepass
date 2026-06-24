@@ -1,0 +1,16 @@
+.vercel
+node_modules/
+.DS_Store
+*.log
+
+# Secrets / environment files (never commit)
+.env
+*.env
+**/.env
+**/.env.*
+
+# Unrelated sub-project (keep out of this repo)
+AI-app builder/
+
+# Private docs — do not publish
+*.docx
