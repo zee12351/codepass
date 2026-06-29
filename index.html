@@ -354,9 +354,10 @@
       btn.disabled=false; btn.textContent='Claim my founding spot'; input.value='';
     }
     if(WAITLIST_ENDPOINT.indexOf('YOUR_FORM_ID')>-1){ done(); return; } // not configured yet → still saves locally + shows success
+    function fail(){ btn.disabled=false; btn.textContent='Try again'; input.style.borderColor='#dc2626'; alert("Sorry — that didn't save. Please check your connection and try again."); }
     fetch(WAITLIST_ENDPOINT, { method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, body:JSON.stringify({ email:email, source:'zarivo-waitlist' }) })
-      .then(function(){ done(); })
-      .catch(function(){ done(); });
+      .then(function(res){ if(res.ok){ done(); } else { fail(); } })
+      .catch(function(){ fail(); });
   }
 </script>
 </body>

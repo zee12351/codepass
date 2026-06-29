@@ -542,6 +542,176 @@ const codingQuestions = [
       english: "In inpatient coding, the 'Principal Diagnosis' is defined as the condition established after study to be chiefly responsible for occasioning the admission. In outpatient coding, the term 'First-Listed Diagnosis' is used instead, since outpatient visits do not involve formal inpatient admissions.",
       hindi: "इनपेशेंट कोडिंग में, 'मुख्य निदान' (Principal Diagnosis) को उस स्थिति के रूप में परिभाषित किया जाता है जो अध्ययन के बाद अस्पताल में भर्ती के लिए मुख्य रूप से जिम्मेदार पाई जाती है। आउटपेशेंट कोडिंग में, इसके बजाय 'प्रथम-सूचीबद्ध निदान' (First-Listed Diagnosis) शब्द का उपयोग किया जाता है।"
     }
+  },
+  {
+    id: 21,
+    category: "Modifiers & Guidelines",
+    english: {
+      question: "A radiologist reviews and writes the report for a chest X-ray performed at a hospital, but does not own the equipment or employ the technician. Which modifier reports only the physician's professional interpretation?",
+      options: ["Modifier TC", "Modifier 26", "Modifier 59", "Modifier 51"]
+    },
+    hindi: {
+      question: "एक रेडियोलॉजिस्ट अस्पताल में किए गए चेस्ट एक्स-रे की समीक्षा करता है और रिपोर्ट लिखता है, लेकिन उपकरण का मालिक नहीं है और न ही तकनीशियन को नियुक्त करता है। कौन सा मॉडिफायर केवल चिकित्सक की व्यावसायिक व्याख्या की रिपोर्ट करता है?",
+      options: ["मॉडिफायर TC", "मॉडिफायर 26", "मॉडिफायर 59", "मॉडिफायर 51"]
+    },
+    answer: 1,
+    rationale: {
+      english: "Modifier 26 identifies the professional component of a service - the physician's interpretation and written report. Modifier TC reports the technical component (equipment, supplies, and technician). When one party reads the study and another owns the equipment, the read is billed with modifier 26.",
+      hindi: "मॉडिफायर 26 किसी सेवा के व्यावसायिक घटक (professional component) - यानी चिकित्सक की व्याख्या और लिखित रिपोर्ट - की पहचान करता है। मॉडिफायर TC तकनीकी घटक (उपकरण, सामग्री, तकनीशियन) की रिपोर्ट करता है। जब एक पक्ष अध्ययन पढ़ता है और दूसरा उपकरण का मालिक होता है, तो व्याख्या मॉडिफायर 26 के साथ बिल की जाती है।"
+    }
+  },
+  {
+    id: 22,
+    category: "Evaluation & Management (E/M)",
+    english: {
+      question: "A patient is seen today. The same physician (same specialty, same group practice) last provided a face-to-face professional service to this patient 26 months ago. For E/M coding, is this a new or established patient?",
+      options: ["New patient", "Established patient", "Consultation", "Cannot be determined"]
+    },
+    hindi: {
+      question: "एक रोगी को आज देखा जाता है। उसी चिकित्सक (समान विशेषज्ञता, समान समूह) ने इस रोगी को आखिरी बार 26 महीने पहले आमने-सामने पेशेवर सेवा दी थी। E/M कोडिंग के लिए, यह नया रोगी है या स्थापित (पुराना)?",
+      options: ["नया रोगी", "स्थापित (पुराना) रोगी", "परामर्श", "निर्धारित नहीं किया जा सकता"]
+    },
+    answer: 1,
+    rationale: {
+      english: "A patient is new only if they have not received a face-to-face professional service from the physician, or from another physician of the same specialty and subspecialty in the same group, within the past 3 years (36 months). Since the last service was 26 months ago, the patient is established.",
+      hindi: "एक रोगी 'नया' तभी होता है जब उसने पिछले 3 वर्षों (36 महीने) के भीतर उस चिकित्सक से, या उसी समूह में समान विशेषज्ञता के किसी अन्य चिकित्सक से, आमने-सामने पेशेवर सेवा प्राप्त न की हो। चूँकि अंतिम सेवा 26 महीने पहले थी, रोगी स्थापित (पुराना) है।"
+    }
+  },
+  {
+    id: 23,
+    category: "ICD-10-CM Diagnosis Coding",
+    english: {
+      question: "A patient has hypertension with stage 3 chronic kidney disease (CKD). Per ICD-10-CM, how is this reported?",
+      options: ["I12.9 (hypertensive chronic kidney disease) plus N18.30 to identify the CKD stage", "I10 and N18.30 coded as unrelated conditions", "I10 (essential hypertension) only", "N18.30 only"]
+    },
+    hindi: {
+      question: "एक रोगी को उच्च रक्तचाप के साथ स्टेज 3 क्रोनिक किडनी रोग (CKD) है। ICD-10-CM के अनुसार, इसे कैसे रिपोर्ट किया जाता है?",
+      options: ["I12.9 (हाइपरटेंसिव क्रोनिक किडनी रोग) और CKD स्टेज पहचानने के लिए N18.30", "I10 और N18.30 असंबंधित स्थितियों के रूप में", "केवल I10 (इसेंशियल हाइपरटेंशन)", "केवल N18.30"]
+    },
+    answer: 0,
+    rationale: {
+      english: "ICD-10-CM presumes a cause-and-effect relationship between hypertension and chronic kidney disease, so they are reported with a combination code from category I12. Assign I12.9 for hypertensive CKD and add a code from N18 to identify the CKD stage (N18.30 for stage 3, unspecified).",
+      hindi: "ICD-10-CM उच्च रक्तचाप और क्रोनिक किडनी रोग के बीच कारण-और-प्रभाव संबंध मान लेता है, इसलिए इन्हें श्रेणी I12 के संयोजन कोड से रिपोर्ट किया जाता है। हाइपरटेंसिव CKD के लिए I12.9 असाइन करें और CKD स्टेज पहचानने के लिए N18 से एक कोड जोड़ें (स्टेज 3 अनिर्दिष्ट के लिए N18.30)।"
+    }
+  },
+  {
+    id: 24,
+    category: "Anesthesia Coding",
+    english: {
+      question: "Anesthesia is administered for a procedure with 6 base units. Total anesthesia time is 60 minutes, and the locality uses 15 minutes per time unit. With no other modifying factors, what are the total anesthesia units?",
+      options: ["10 units", "6 units", "4 units", "16 units"]
+    },
+    hindi: {
+      question: "एक प्रक्रिया के लिए एनेस्थीसिया दिया जाता है जिसमें 6 बेस यूनिट हैं। कुल एनेस्थीसिया समय 60 मिनट है, और यह क्षेत्र प्रति टाइम यूनिट 15 मिनट का उपयोग करता है। बिना किसी अन्य कारक के, कुल एनेस्थीसिया यूनिट कितनी होंगी?",
+      options: ["10 यूनिट", "6 यूनिट", "4 यूनिट", "16 यूनिट"]
+    },
+    answer: 0,
+    rationale: {
+      english: "Total anesthesia units = Base Units + Time Units (+ any modifying units). Time units = total anesthesia minutes divided by the minutes-per-unit, so 60 / 15 = 4. Adding base units: 6 + 4 = 10 total units.",
+      hindi: "कुल एनेस्थीसिया यूनिट = बेस यूनिट + टाइम यूनिट (+ कोई संशोधक यूनिट)। टाइम यूनिट = कुल एनेस्थीसिया मिनट ÷ प्रति-यूनिट मिनट, यानी 60 / 15 = 4। बेस यूनिट जोड़ने पर: 6 + 4 = 10 कुल यूनिट।"
+    }
+  },
+  {
+    id: 25,
+    category: "Anesthesia Coding",
+    english: {
+      question: "Which anesthesia physical status modifier describes a patient with severe systemic disease?",
+      options: ["P1", "P2", "P3", "P4"]
+    },
+    hindi: {
+      question: "कौन सा एनेस्थीसिया फिजिकल स्टेटस मॉडिफायर गंभीर प्रणालीगत रोग (severe systemic disease) वाले रोगी का वर्णन करता है?",
+      options: ["P1", "P2", "P3", "P4"]
+    },
+    answer: 2,
+    rationale: {
+      english: "Physical status modifiers: P1 = a normal healthy patient; P2 = a patient with mild systemic disease; P3 = a patient with severe systemic disease; P4 = a patient with severe systemic disease that is a constant threat to life. Severe systemic disease is P3.",
+      hindi: "फिजिकल स्टेटस मॉडिफायर: P1 = सामान्य स्वस्थ रोगी; P2 = हल्के प्रणालीगत रोग वाला रोगी; P3 = गंभीर प्रणालीगत रोग वाला रोगी; P4 = गंभीर प्रणालीगत रोग जो जीवन के लिए निरंतर खतरा है। गंभीर प्रणालीगत रोग P3 है।"
+    }
+  },
+  {
+    id: 26,
+    category: "CPT Surgery (Integumentary)",
+    english: {
+      question: "A physician excises a benign lesion measuring 1.0 cm at its greatest diameter, taking narrowest margins of 0.2 cm on each side. What excised diameter is used to select the excision code?",
+      options: ["1.0 cm", "1.2 cm", "1.4 cm", "2.0 cm"]
+    },
+    hindi: {
+      question: "एक चिकित्सक एक सौम्य (benign) घाव निकालता है जो अपने सबसे बड़े व्यास पर 1.0 सेमी है, और प्रत्येक तरफ 0.2 सेमी का सबसे संकीर्ण मार्जिन लेता है। एक्सिशन कोड चुनने के लिए कौन सा एक्साइज्ड व्यास उपयोग किया जाता है?",
+      options: ["1.0 सेमी", "1.2 सेमी", "1.4 सेमी", "2.0 सेमी"]
+    },
+    answer: 2,
+    rationale: {
+      english: "The lesion excision code is selected using the excised diameter = greatest lesion diameter plus the narrowest margin counted on both sides (margin x 2). Here: 1.0 + (0.2 x 2) = 1.4 cm.",
+      hindi: "घाव एक्सिशन का कोड एक्साइज्ड व्यास से चुना जाता है = सबसे बड़ा घाव व्यास + दोनों तरफ गिना गया सबसे संकीर्ण मार्जिन (मार्जिन x 2)। यहाँ: 1.0 + (0.2 x 2) = 1.4 सेमी।"
+    }
+  },
+  {
+    id: 27,
+    category: "Modifiers & Guidelines",
+    english: {
+      question: "A surgeon performs the identical procedure on both the right and left knees during the same operative session. Which modifier best reports this?",
+      options: ["Modifier 51", "Modifier 50", "Modifier 59", "Modifier 22"]
+    },
+    hindi: {
+      question: "एक सर्जन एक ही ऑपरेटिव सत्र के दौरान दाएँ और बाएँ दोनों घुटनों पर समान प्रक्रिया करता है। कौन सा मॉडिफायर इसे सबसे अच्छी तरह रिपोर्ट करता है?",
+      options: ["मॉडिफायर 51", "मॉडिफायर 50", "मॉडिफायर 59", "मॉडिफायर 22"]
+    },
+    answer: 1,
+    rationale: {
+      english: "Modifier 50 reports a bilateral procedure - the same procedure performed on both sides of the body during the same session. Modifier 51 reports multiple different procedures, and modifier 59 reports a distinct procedural service.",
+      hindi: "मॉडिफायर 50 द्विपक्षीय प्रक्रिया (bilateral procedure) की रिपोर्ट करता है - एक ही सत्र में शरीर के दोनों तरफ की गई समान प्रक्रिया। मॉडिफायर 51 कई अलग-अलग प्रक्रियाओं की और मॉडिफायर 59 एक अलग प्रक्रियात्मक सेवा की रिपोर्ट करता है।"
+    }
+  },
+  {
+    id: 28,
+    category: "Modifiers & Guidelines",
+    english: {
+      question: "After an evaluation, a surgeon decides to perform a major surgery (90-day global period) the very next morning. Which modifier should be appended to that evaluation and management (E/M) service?",
+      options: ["Modifier 25", "Modifier 57", "Modifier 24", "Modifier 59"]
+    },
+    hindi: {
+      question: "मूल्यांकन के बाद, एक सर्जन अगली ही सुबह एक बड़ी सर्जरी (90-दिन ग्लोबल अवधि) करने का निर्णय लेता है। उस मूल्यांकन और प्रबंधन (E/M) सेवा पर कौन सा मॉडिफायर लगाया जाना चाहिए?",
+      options: ["मॉडिफायर 25", "मॉडिफायर 57", "मॉडिफायर 24", "मॉडिफायर 59"]
+    },
+    answer: 1,
+    rationale: {
+      english: "Modifier 57 indicates an E/M service that resulted in the initial decision to perform major surgery, when the E/M is provided the day before or the day of the procedure. Modifier 25 is used for a separate E/M on the same day as a minor procedure, not a major one.",
+      hindi: "मॉडिफायर 57 उस E/M सेवा को दर्शाता है जिसके परिणामस्वरूप बड़ी सर्जरी करने का प्रारंभिक निर्णय लिया गया, जब E/M प्रक्रिया के एक दिन पहले या उसी दिन दी जाती है। मॉडिफायर 25 छोटी प्रक्रिया के उसी दिन की अलग E/M के लिए होता है, बड़ी के लिए नहीं।"
+    }
+  },
+  {
+    id: 29,
+    category: "Modifiers & Guidelines",
+    english: {
+      question: "What is the primary purpose of the National Correct Coding Initiative (NCCI) edits?",
+      options: ["To set the fee schedule for physician services", "To prevent improper payment when certain code combinations should not be billed together", "To assign ICD-10-CM diagnosis codes", "To define surgical global periods"]
+    },
+    hindi: {
+      question: "नेशनल करेक्ट कोडिंग इनिशिएटिव (NCCI) एडिट्स का प्राथमिक उद्देश्य क्या है?",
+      options: ["चिकित्सक सेवाओं के लिए शुल्क अनुसूची निर्धारित करना", "अनुचित भुगतान रोकना जब कुछ कोड संयोजन एक साथ बिल नहीं किए जाने चाहिए", "ICD-10-CM निदान कोड असाइन करना", "सर्जिकल ग्लोबल अवधि परिभाषित करना"]
+    },
+    answer: 1,
+    rationale: {
+      english: "NCCI edits identify pairs of codes that should not normally be reported together, preventing improper payment from unbundling. When the services are genuinely distinct, an appropriate modifier (such as 59 or an X-modifier) may be used to bypass the edit.",
+      hindi: "NCCI एडिट्स ऐसे कोड जोड़े पहचानते हैं जिन्हें सामान्यतः एक साथ रिपोर्ट नहीं किया जाना चाहिए, जिससे अनबंडलिंग से होने वाला अनुचित भुगतान रुके। जब सेवाएँ वास्तव में अलग हों, तो एडिट बायपास करने के लिए उपयुक्त मॉडिफायर (जैसे 59 या X-मॉडिफायर) उपयोग किया जा सकता है।"
+    }
+  },
+  {
+    id: 30,
+    category: "Modifiers & Guidelines",
+    english: {
+      question: "A physician begins a screening colonoscopy but must terminate the procedure due to the patient's deteriorating condition before it is completed. Which modifier reports this discontinued physician service?",
+      options: ["Modifier 52", "Modifier 53", "Modifier 73", "Modifier 74"]
+    },
+    hindi: {
+      question: "एक चिकित्सक स्क्रीनिंग कोलोनोस्कोपी शुरू करता है लेकिन पूरा होने से पहले रोगी की बिगड़ती स्थिति के कारण प्रक्रिया रोकनी पड़ती है। कौन सा मॉडिफायर इस बंद की गई (discontinued) चिकित्सक सेवा की रिपोर्ट करता है?",
+      options: ["मॉडिफायर 52", "मॉडिफायर 53", "मॉडिफायर 73", "मॉडिफायर 74"]
+    },
+    answer: 1,
+    rationale: {
+      english: "Modifier 53 reports a discontinued procedure - one the physician elected to terminate because of risk to the patient's wellbeing after the procedure had already begun. Modifier 52 is for reduced services (planned partial reduction), and modifiers 73/74 apply to discontinued procedures in the facility/ASC outpatient setting.",
+      hindi: "मॉडिफायर 53 बंद की गई प्रक्रिया (discontinued procedure) की रिपोर्ट करता है - जिसे चिकित्सक ने प्रक्रिया शुरू होने के बाद रोगी की भलाई के जोखिम के कारण समाप्त करने का निर्णय लिया। मॉडिफायर 52 कम की गई सेवाओं (नियोजित आंशिक कमी) के लिए है, और मॉडिफायर 73/74 सुविधा/ASC आउटपेशेंट सेटिंग में लागू होते हैं।"
+    }
   }
 ];
 

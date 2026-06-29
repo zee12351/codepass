@@ -35,6 +35,19 @@
   </div>
 </nav>
 
+<!-- START GATE: capture name before the quiz (for institute pilot tracking) -->
+<div id="start-gate" style="position:fixed;inset:0;background:linear-gradient(160deg,#0f2f55,#1f4e79);display:flex;align-items:center;justify-content:center;z-index:200;padding:20px;">
+  <div style="background:#fff;border-radius:16px;max-width:420px;width:100%;padding:32px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.35);">
+    <div style="font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#12833b;margin-bottom:8px;">CPC Diagnostic Test</div>
+    <h2 style="color:#0f2f55;font-size:24px;font-weight:800;margin-bottom:8px;">Before you begin</h2>
+    <p style="color:#5b6b80;font-size:15px;margin-bottom:20px;">20 questions · 40 minutes · instant results with rationales.</p>
+    <input id="sg-name" type="text" placeholder="Your full name *" style="width:100%;padding:13px 15px;border:2px solid #e3e9f2;border-radius:10px;font-size:16px;margin-bottom:12px;box-sizing:border-box;" />
+    <input id="sg-institute" type="text" placeholder="Your institute / batch (optional)" style="width:100%;padding:13px 15px;border:2px solid #e3e9f2;border-radius:10px;font-size:16px;margin-bottom:18px;box-sizing:border-box;" />
+    <button onclick="startQuiz()" style="width:100%;background:#16a34a;color:#fff;font-weight:700;font-size:16px;padding:14px;border:none;border-radius:10px;cursor:pointer;">Start the test →</button>
+    <p style="font-size:12px;color:#98a6b8;margin-top:12px;">Your name lets your institute track your readiness during the pilot.</p>
+  </div>
+</div>
+
 <div class="wrap">
   <!-- QUIZ INTERFACE PANEL -->
   <main class="app-container" id="quiz-panel">
@@ -195,22 +208,56 @@
   const totalDuration = 2400; // 40 minutes in seconds
   let timeLeft = totalDuration;
 
-  // Verify that questions database exists and is loaded
+  // Full question bank + per-attempt random subset
+  let allQuestions = [];
+  let studentName = '';
+  let studentInstitute = '';
+
   if (typeof codingQuestions !== 'undefined') {
-    questions = codingQuestions;
+    allQuestions = codingQuestions;
   } else {
     alert("Error: Questions database failed to load. Please verify questions.js exists.");
   }
 
-  // Initialize Page Setup
+  function shuffleArray(a) {
+    a = a.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  // Pick a fresh random set of up to 20 questions for this attempt
+  function pickQuestions() {
+    const n = Math.min(20, allQuestions.length);
+    questions = shuffleArray(allQuestions).slice(0, n);
+    answers = Array(n).fill(null);
+    flags = Array(n).fill(false);
+    currentIdx = 0;
+  }
+
+  // Initialize page (theme only). The quiz starts after the name gate.
   document.addEventListener('DOMContentLoaded', () => {
     initTheme();
-    if (questions.length > 0) {
+  });
+
+  // Begin the test after capturing the student's name
+  function startQuiz() {
+    const nameInput = document.getElementById('sg-name');
+    const instInput = document.getElementById('sg-institute');
+    const name = (nameInput.value || '').trim();
+    if (!name) { nameInput.style.borderColor = '#dc2626'; nameInput.focus(); return; }
+    studentName = name;
+    studentInstitute = (instInput.value || '').trim();
+    document.getElementById('start-gate').style.display = 'none';
+    if (allQuestions.length > 0) {
+      pickQuestions();
       buildGrid();
       loadQuestion(0);
       startTimer();
     }
-  });
+  }
 
   // Exit Quiz Confirmation
   function confirmExit() {
@@ -447,6 +494,31 @@
     const passThreshold = 70; // AAPC standard
     const didPass = scorePercentage >= passThreshold;
 
+    // Save this result so the institute can track batch readiness (Formspree)
+    try {
+      var breakdown = Object.keys(categoryTotals).map(function (c) {
+        return c + ': ' + categoryCorrects[c] + '/' + categoryTotals[c];
+      }).join('; ');
+      try {
+        var scores = JSON.parse(localStorage.getItem('zarivo_scores') || '[]');
+        scores.push({ name: studentName, institute: studentInstitute, score: score + '/' + questions.length, percentage: scorePercentage, when: new Date().toISOString() });
+        localStorage.setItem('zarivo_scores', JSON.stringify(scores));
+      } catch (e) {}
+      fetch('https://formspree.io/f/xreweddn', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          source: 'zarivo-quiz-score',
+          name: studentName || 'Anonymous',
+          institute: studentInstitute || '-',
+          score: score + '/' + questions.length,
+          percentage: scorePercentage + '%',
+          result: didPass ? 'PASS-predicted' : 'needs-practice',
+          breakdown: breakdown
+        })
+      }).catch(function () {});
+    } catch (e) {}
+
     // Draw circular SVG ring
     const ring = document.getElementById('ring-fill');
     const radius = 70;
@@ -607,11 +679,9 @@
 
   // Action: Reset State to Retake Test
   function retakeQuiz() {
-    answers = Array(20).fill(null);
-    flags = Array(20).fill(false);
+    pickQuestions(); // fresh random set + reset answers/flags
     timeLeft = totalDuration;
-    currentIdx = 0;
-    
+
     // Reset Grid styles
     buildGrid();
     
@@ -649,7 +719,8 @@
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({ email: email, source: 'zarivo-quiz-results' })
-    }).then(function () { done(); }).catch(function () { done(); });
+    }).then(function (res) { if (res.ok) { done(); } else { fail(); } }).catch(function () { fail(); });
+    function fail(){ btn.disabled=false; btn.textContent='Try again'; input.style.outline='2px solid #dc2626'; alert("Sorry — that didn't save. Please try again."); }
   }
 </script>
 </body>
